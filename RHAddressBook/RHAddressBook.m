@@ -356,10 +356,10 @@ NSString * const RHAddressBookPersonAddressGeocodeCompleted = @"RHAddressBookPer
         //if not in the cache, create and add a new one
         if (! source){
             //we don't use the sourceRef directly so as to ensure we are using the correct _addressBook
-            ABRecordRef sourceRef = ABAddressBookGetSourceWithRecordID(_addressBookRef, sourceID);
+            ABRecordRef sourceRefInBlock = ABAddressBookGetSourceWithRecordID(_addressBookRef, sourceID);
             
-            if (sourceRef){
-                source = [[RHSource alloc] initWithAddressBook:self recordRef:sourceRef];
+            if (sourceRefInBlock){
+                source = [[RHSource alloc] initWithAddressBook:self recordRef:sourceRefInBlock];
                 //the record will check in with the addressbook, so its automatically added to the cache and available for future calls..
             }
         }
@@ -499,10 +499,10 @@ NSString * const RHAddressBookPersonAddressGeocodeCompleted = @"RHAddressBookPer
         if (! group){
             
             //we don't use the groupRef directly to ensure we are using the correct _addressBook
-            __block ABRecordRef groupRef = ABAddressBookGetGroupWithRecordID(_addressBookRef, groupID);
+            __block ABRecordRef groupRefInBlock = ABAddressBookGetGroupWithRecordID(_addressBookRef, groupID);
 
-            if (groupRef){
-                group = [[RHGroup alloc] initWithAddressBook:self recordRef:groupRef];
+            if (groupRefInBlock){
+                group = [[RHGroup alloc] initWithAddressBook:self recordRef:groupRefInBlock];
                 //the record will check in with the addressbook, so its automatically added to the cache and available for future calls..
             }
         }
@@ -685,10 +685,10 @@ NSString * const RHAddressBookPersonAddressGeocodeCompleted = @"RHAddressBookPer
         if (! person){
             
             //we don't use the personRef directly to ensure we are using the correct _addressBook
-            __block ABRecordRef personRef = ABAddressBookGetPersonWithRecordID(_addressBookRef, personID);
+            __block ABRecordRef personRefInBlock = ABAddressBookGetPersonWithRecordID(_addressBookRef, personID);
             
-            if (personRef){
-                person = [[RHPerson alloc] initWithAddressBook:self recordRef:personRef];
+            if (personRefInBlock){
+                person = [[RHPerson alloc] initWithAddressBook:self recordRef:personRefInBlock];
                 //the record will check in with the addressbook, so its automatically added to the cache and available for future calls..
             }
         }
