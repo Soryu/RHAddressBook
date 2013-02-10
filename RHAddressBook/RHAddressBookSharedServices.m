@@ -216,9 +216,9 @@ static __strong RHAddressBookSharedServices *_sharedInstance = nil;
     CFArrayRef people = ABAddressBookCopyArrayOfAllPeople(_addressBook);
 
     if (people){
-        for (CFIndex i = 0; i < CFArrayGetCount(people); i++) {
+        for (CFIndex outerLoopVariable = 0; outerLoopVariable < CFArrayGetCount(people); outerLoopVariable++) {
             
-            ABRecordRef person = CFArrayGetValueAtIndex(people, i);
+            ABRecordRef person = CFArrayGetValueAtIndex(people, outerLoopVariable);
 
             if (person){
                 
@@ -226,10 +226,10 @@ static __strong RHAddressBookSharedServices *_sharedInstance = nil;
                 ABMultiValueRef addresses = ABRecordCopyValue(person, kABPersonAddressProperty);
                 
                 if (addresses){
-                    for (CFIndex i = 0; i < ABMultiValueGetCount(addresses); i++) {
+                    for (CFIndex innerLoopVariable = 0; innerLoopVariable < ABMultiValueGetCount(addresses); innerLoopVariable++) {
                         
-                        ABPropertyID addressID = ABMultiValueGetIdentifierAtIndex(addresses, i);
-                        CFDictionaryRef addressDict = ABMultiValueCopyValueAtIndex(addresses, i);
+                        ABPropertyID addressID = ABMultiValueGetIdentifierAtIndex(addresses, innerLoopVariable);
+                        CFDictionaryRef addressDict = ABMultiValueCopyValueAtIndex(addresses, innerLoopVariable);
                         //======================================================================
                         
                         //see if we have a valid, old entry
