@@ -127,7 +127,7 @@
             //bail
             RHErrorLog(@"Error: Failed to get -[RHAddressBookGeoResult associatedAddressDictionary]. Underlying ABAddressBookCreateWithOptions() failed with error: %@", errorRef);
             if (errorRef) CFRelease(errorRef);
-            arc_release_nil(self);
+            // arc_release_nil(self);
             
             return nil;
         }
