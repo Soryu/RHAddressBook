@@ -41,7 +41,7 @@
 #import <AddressBook/AddressBook.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define PROCESS_ADDRESS_EVERY_SECONDS 5.0 //seconds between each geocode
+#define PROCESS_ADDRESS_EVERY_SECONDS 0.5 //seconds between each geocode
 
 //private
 @interface RHAddressBookSharedServices ()
