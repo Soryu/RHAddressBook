@@ -36,21 +36,18 @@
     if (self) {
         // Custom initialization
         self.title = NSLocalizedString(@"RHAddressBook", nil);
-        _addressBook = [addressBook retain];
+        _addressBook = addressBook;
     }
     return self;
 }
 
-#define RN(x) [x release]; x = nil;
 - (void)dealloc{
-    RN(_addressBook);
-    RN(_sources);
-    RN(_groups);
-    RN(_people);
+     _sources = nil;
+     _groups = nil;
+     _people = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self]; //for the ab externally changed notifications 
     
-    [super dealloc];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,9 +62,9 @@
     [super viewDidUnload];
 
     //discard our cached values
-    RN(_sources);
-    RN(_groups);
-    RN(_people);
+     _sources = nil;
+     _groups = nil;
+     _people = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RHAddressBookExternalChangeNotification object:nil];
      
@@ -105,15 +102,12 @@
     } else if (section == kRHAddressBookViewControllerLocationSection){
         return kRHAddressBookViewControllerLocationCellsCount;
     } else if (section == kRHAddressBookViewControllerSourcesSection){
-        [_sources release];
         _sources = [[_addressBook sources] mutableCopy];
         return [_sources count];
     } else if (section == kRHAddressBookViewControllerGroupsSection){
-        [_groups release];
         _groups = [[_addressBook groups] mutableCopy];
         return [_groups count] + self.tableView.editing; //to allow for + button
     } else if (section == kRHAddressBookViewControllerPeopleSection){
-        [_people release];
         _people = [[_addressBook peopleOrderedByUsersPreference] mutableCopy];
         return [_people count] + self.tableView.editing;  //to allow for + button
     } 
@@ -124,7 +118,7 @@
     static NSString *cellIdentifier = @"RHAddressBookViewControllerCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell){
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
     }
     //reset
     cell.textLabel.text = nil;
@@ -214,7 +208,7 @@
         //TODO: push our own viewer view, for now just use the AB default one.
         RHPerson *person = [_people objectAtIndex:indexPath.row];
         
-        ABPersonViewController *personViewController = [[[ABPersonViewController alloc] init] autorelease];   
+        ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];   
         
         //setup (tell the view controller to use our underlying address book instance, so our person object is directly updated)
         [person.addressBook performAddressBookAction:^(ABAddressBookRef addressBookRef) {
@@ -246,7 +240,6 @@
     
     if (pushController){
         [self.navigationController pushViewController:pushController animated:YES];
-        [pushController release];
     }
     
 }
@@ -329,7 +322,6 @@
     group.name = NSLocalizedString(@"New Group", nil);
     [_addressBook save];
     [_groups addObject:group];
-    [group release];
 }
 
 -(void)addNewPerson{
@@ -337,7 +329,6 @@
     person.firstName = NSLocalizedString(@"New Person", nil);
     [_addressBook save];
     [_people addObject:person];
-    [person release];
 }
 
 #pragma mark - addressBookChangedNotification

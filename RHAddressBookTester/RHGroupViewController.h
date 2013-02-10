@@ -14,7 +14,7 @@
     NSMutableArray *_members; //cache
 }
 
-@property (retain) RHGroup *group;
+@property (strong) RHGroup *group;
 
 - (id)initWithGroup:(RHGroup*)group;
 

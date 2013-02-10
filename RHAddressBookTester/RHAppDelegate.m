@@ -21,16 +21,10 @@
 @synthesize window = _window;
 @synthesize navigationController = _navigationController;
 
--(void)dealloc
-{
-    [_window release];
-    [_navigationController release];
-    [super dealloc];
-}
 
 -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
     //perf setup. 5000 contacts
@@ -53,7 +47,7 @@
     clock_t end_time = 0;
     
     start_time = clock();
-    RHAddressBook *pab = [[[RHAddressBook alloc] init] autorelease];
+    RHAddressBook *pab = [[RHAddressBook alloc] init];
     end_time = clock();
 
     NSLog(@"PERF: Init took %f seconds.", (double)(end_time - start_time) / (double)CLOCKS_PER_SEC);
@@ -78,9 +72,9 @@
 
 #endif
 
-    RHAddressBook *ab = [[[RHAddressBook alloc] init] autorelease];
-    RHAddressBookViewController *abViewController = [[[RHAddressBookViewController alloc] initWithAddressBook:ab] autorelease];
-    self.navigationController = [[[UINavigationController alloc] initWithRootViewController:abViewController] autorelease];
+    RHAddressBook *ab = [[RHAddressBook alloc] init];
+    RHAddressBookViewController *abViewController = [[RHAddressBookViewController alloc] initWithAddressBook:ab];
+    self.navigationController = [[UINavigationController alloc] initWithRootViewController:abViewController];
     self.window.rootViewController = self.navigationController;
     [self.window makeKeyAndVisible];
 
@@ -99,14 +93,12 @@
     if ([RHAddressBook authorizationStatus] == RHAuthorizationStatusDenied){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RHAuthorizationStatusDenied" message:@"Access to the addressbook is currently denied." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        [alert release];
     }
 
     // warn re restricted access to contacts
     if ([RHAddressBook authorizationStatus] == RHAuthorizationStatusRestricted){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"RHAuthorizationStatusRestricted" message:@"Access to the addressbook is currently restricted." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
-        [alert release];
     }
 
     

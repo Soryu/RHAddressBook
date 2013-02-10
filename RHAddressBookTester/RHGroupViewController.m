@@ -25,7 +25,7 @@
 - (id)initWithGroup:(RHGroup*)group{
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        _group = [group retain];
+        _group = group;
 
         //set out title
         self.title = [_group compositeName];
@@ -33,14 +33,12 @@
     return self;
 }
 
-#define RN(x) [x release]; x = nil;
 - (void)dealloc {
-    RN(_members);
-    RN(_group);
+  _members = nil;
+  
 
     [[NSNotificationCenter defaultCenter] removeObserver:self]; //for the ab externally changed notifications 
 
-    [super dealloc];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,7 +56,7 @@
     // Release any retained subviews of the main view.
 
     //discard our cached values
-    RN(_members);
+    _members = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RHAddressBookExternalChangeNotification object:nil];
 
@@ -75,7 +73,7 @@
      
     if(editing) {
         [self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Rename" style:UIBarButtonItemStylePlain target:self action:@selector(renameGroup)] autorelease];
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Rename" style:UIBarButtonItemStylePlain target:self action:@selector(renameGroup)];
 
     } else {
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
@@ -96,7 +94,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0){
     // Return the number of rows in the section.
-    [_members release];
     _members = [[_group membersOrderedByUsersPreference] mutableCopy];
     
     // this is as good a place as any to update our title.
@@ -114,7 +111,7 @@
     static NSString *cellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (!cell) cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+    if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     
     if (indexPath.section == 0){
         RHPerson *person = [_members objectAtIndex:indexPath.row];
@@ -183,7 +180,7 @@
         //TODO: push our own viewer view, for now just use the AB default one.
         RHPerson *person = [_members objectAtIndex:indexPath.row];
         
-        ABPersonViewController *personViewController = [[[ABPersonViewController alloc] init] autorelease];   
+        ABPersonViewController *personViewController = [[ABPersonViewController alloc] init];   
 
         //setup (tell the view controller to use our underlying address book instance, so our person object is directly updated)
         [person.addressBook performAddressBookAction:^(ABAddressBookRef addressBookRef) {
@@ -211,7 +208,6 @@
     [_group addMember:person];
     [_group save];
     [_members addObject:person];
-    [person release];
 }
 
 #pragma mark - edit
@@ -225,7 +221,6 @@
     }
 #endif
     [alert show];
-    [alert release];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

@@ -40,7 +40,7 @@ typedef enum {
 
 -(id)initWithAddressBook:(RHAddressBook*)addressBook;
 
-@property (retain, nonatomic) RHAddressBook *addressBook;
+@property (strong, nonatomic) RHAddressBook *addressBook;
 
 
 @end
