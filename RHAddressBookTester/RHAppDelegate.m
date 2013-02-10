@@ -14,8 +14,6 @@
 
 #import "RHAddressBookViewController.h"
 
-#import <RHAddressBook/AddressBook.h>
-
 @implementation RHAppDelegate
 
 @synthesize window = _window;

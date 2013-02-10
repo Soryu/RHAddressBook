@@ -30,7 +30,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <CoreLocation/CoreLocation.h>
-#import "AddressBook.h"
 #import "UIImage+RHComparingAdditions.h"
 
 @interface RHAddressBookLogicTests : SenTestCase {

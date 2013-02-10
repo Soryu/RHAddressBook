@@ -30,7 +30,6 @@
 
 #import "RHAddressBookLogicTests.h"
 
-#import "AddressBook.h"
 #import <objc/runtime.h>
 
 @implementation RHAddressBookLogicTests

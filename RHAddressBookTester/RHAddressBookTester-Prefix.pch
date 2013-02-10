@@ -13,5 +13,5 @@
     #import <Foundation/Foundation.h>
     #import <AddressBook/AddressBook.h>
     #import <CoreLocation/CoreLocation.h>
-    #import <RHAddressBook/AddressBook.h>
+    #import "AddressBook.h"
 #endif

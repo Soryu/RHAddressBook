@@ -28,6 +28,8 @@
 //  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+#import "RHARCSupport.h"
+
 #import "RHAddressBook.h"
 #import "RHRecord.h"
 #import "RHSource.h"
